@@ -2,7 +2,7 @@
 
 VXLDIR = /usr/local
 VERSION = opengazer-0.1.2
-CPPFLAGS = -Wall -g -O3
+CPPFLAGS = -DUSE_GTK=1 -Wall -g -O3
 LINKER = -L$(VXLDIR)/lib -L/usr/local/lib -lm -ldl -lvnl -lmvl -lvnl_algo -lvgl -lgthread-2.0 
 
 # change the following line if your vxl library is installed elsewhere
