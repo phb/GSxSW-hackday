@@ -8,8 +8,12 @@
 \**********************************************************/
 
 #include "GazifyAPI.h"
+#include "DOM.h"
+#include "variant_list.h"
 
 #include "Gazify.h"
+
+using namespace FB;
 
 ///////////////////////////////////////////////////////////////////////////////
 /// @fn Gazify::StaticInitialize()
@@ -86,19 +90,17 @@ FB::JSAPIPtr Gazify::createJSAPI()
 
 bool Gazify::onMouseDown(FB::MouseDownEvent *evt, FB::PluginWindow *)
 {
-    //printf("Mouse down at: %d, %d\n", evt->m_x, evt->m_y);
+    printf("Heyo: %s\n", trackAtScreenCoordinates(evt->m_x*2, 100+evt->m_y*2).c_str());
     return false;
 }
 
 bool Gazify::onMouseUp(FB::MouseUpEvent *evt, FB::PluginWindow *)
 {
-    //printf("Mouse up at: %d, %d\n", evt->m_x, evt->m_y);
     return false;
 }
 
 bool Gazify::onMouseMove(FB::MouseMoveEvent *evt, FB::PluginWindow *)
 {
-    //printf("Mouse move at: %d, %d\n", evt->m_x, evt->m_y);
     return false;
 }
 bool Gazify::onWindowAttached(FB::AttachedEvent *evt, FB::PluginWindow *)
@@ -111,5 +113,30 @@ bool Gazify::onWindowDetached(FB::DetachedEvent *evt, FB::PluginWindow *)
 {
     // The window is about to be detached; act appropriately
     return false;
+}
+
+std::string Gazify::trackAtScreenCoordinates(float x, float y)
+{
+    Rect wndRect = GetWindow()->getWindowPosition();
+    /*x -= wndRect.left;
+    y -= wndRect.top;*/ // add back when we get real coordinates
+    DOM::DocumentPtr doc = m_host->getDOMDocument();
+    JSObjectPtr elementUnderGazeJs = doc->callMethod<JSObjectPtr>("elementFromPoint", variant_list_of(x)(y));
+    
+    std::string ret = "<nothing>";
+    int depth = 0;
+    while (elementUnderGazeJs && depth < 100) { // walking up the tree looking for gazemusic attr
+        DOM::ElementPtr elementUnderGaze = DOM::Element::create(elementUnderGazeJs);
+        if(elementUnderGaze->callMethod<bool>("hasAttribute", variant_list_of("gazemusic"))) {
+            try {
+                ret = elementUnderGaze->getStringAttribute("gazemusic");
+                if(!ret.empty()) break;
+            } catch (bad_variant_cast bvc) {}
+        }
+        
+        elementUnderGaze = elementUnderGaze->getParentNode();
+        depth++;
+    }
+    return ret;
 }
 

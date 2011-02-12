@@ -44,6 +44,8 @@ public:
         EVENTTYPE_CASE(FB::AttachedEvent, onWindowAttached, FB::PluginWindow)
         EVENTTYPE_CASE(FB::DetachedEvent, onWindowDetached, FB::PluginWindow)
     END_PLUGIN_EVENT_MAP()
+	
+	std::string trackAtScreenCoordinates(float x, float y);
 
     /** BEGIN EVENTDEF -- DON'T CHANGE THIS LINE **/
     virtual bool onMouseDown(FB::MouseDownEvent *evt, FB::PluginWindow *);
