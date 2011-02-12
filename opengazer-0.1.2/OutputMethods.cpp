@@ -54,8 +54,8 @@ SocketStore::SocketStore(int port) {
 
 void SocketStore::store(const TrackerOutput& output) {
     ostringstream stream;
-    stream << "x " << (int) output.gazepoint.x << endl
-	   << "y " << (int) output.gazepoint.y << endl;
+    stream << (int) output.gazepoint.x << " "
+	   << (int) output.gazepoint.y << endl;
     string str = stream.str();
     sendto(mysocket, str.c_str(), str.size(), 0, 
 	   (sockaddr*)&destaddr, sizeof(destaddr));
