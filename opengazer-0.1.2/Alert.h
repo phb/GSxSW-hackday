@@ -77,7 +77,7 @@ NodeResult<ReturnType> StateMachine<ReturnType>::handleEvent(StateEventType even
 
 
 class AlertWindow: public StateNode<void> {
-    Gtk::Window window;
+//    Gtk::Window window;
     string text;
  public:
     AlertWindow(const string &text);

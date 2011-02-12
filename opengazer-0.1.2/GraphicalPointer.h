@@ -1,5 +1,5 @@
 #pragma once
-#include <gtkmm.h>
+//#include <gtkmm.h>
 #include "Containers.h"
 
 /* represents the pointer as a small window and moves that window */
@@ -12,7 +12,7 @@ class WindowPointer {
 		    double red, double green, double blue);
     };
  private:
-    class GtkPointerDrawingArea: public Gtk::DrawingArea {
+/*    class GtkPointerDrawingArea: public Gtk::DrawingArea {
 	PointerSpec spec;
     public:
         GtkPointerDrawingArea(const PointerSpec &pointerspec);
@@ -23,7 +23,7 @@ class WindowPointer {
     public:
         GtkPointerWindow(const PointerSpec &pointerspec);
     };  
-    GtkPointerWindow pointerwindow;
+    GtkPointerWindow pointerwindow;*/
  public:
     WindowPointer(const PointerSpec &pointerspec);
     void setPosition(int x, int y);
