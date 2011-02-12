@@ -49,11 +49,10 @@ SocketStore::SocketStore(int port) {
 	
     destaddr.sin_family = AF_INET;
     destaddr.sin_port = htons(port);
-    destaddr.sin_addr.s_addr = inet_addr("127.0.0.1");
+    destaddr.sin_addr.s_addr = inet_addr("192.168.248.1");
 }
 
 void SocketStore::store(const TrackerOutput& output) {
-    cout << "PRinting to socket";
     ostringstream stream;
     stream << "x " << (int) output.gazepoint.x << endl
 	   << "y " << (int) output.gazepoint.y << endl;

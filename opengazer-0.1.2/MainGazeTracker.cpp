@@ -123,7 +123,6 @@ void MainGazeTracker::doprocessing(void) {
     try {
 	tracking->doprocessing(frame, canvas.get());
 	if (tracking->gazetracker.isActive()) {
-	    cout << "Printing coords";
 	    xforeach(iter, stores)
 		(*iter)->store(tracking->gazetracker.output);
 // 	    cout << point.x << " " << point.y << " -> " 
