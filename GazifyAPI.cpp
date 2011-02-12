@@ -10,6 +10,8 @@
 
 #include "GazifyAPI.h"
 
+#include <spotify.h>
+
 ///////////////////////////////////////////////////////////////////////////////
 /// @fn GazifyAPI::GazifyAPI(const GazifyPtr& plugin, const FB::BrowserHostPtr host)
 ///
@@ -37,7 +39,8 @@ GazifyAPI::GazifyAPI(const GazifyPtr& plugin, const FB::BrowserHostPtr& host) : 
                         &GazifyAPI::get_version));
     
     
-    registerEvent("onfired");    
+    registerEvent("onfired");
+    spotify_init("not-valid","not-valid");
 }
 
 ///////////////////////////////////////////////////////////////////////////////
