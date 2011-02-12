@@ -1,8 +1,8 @@
 #include "Alert.h"
 
 AlertWindow::AlertWindow(const string& text): text(text) {
-    window.set_title(text);
-    window.show();
+//    window.set_title(text);
+//    window.show();
 }
 
 AlertWindow::~AlertWindow() {}

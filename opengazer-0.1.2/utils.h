@@ -5,7 +5,6 @@
 #include <vector>
 #include <iostream>
 #include <vnl/algo/vnl_svd.h>
-#include <gdkmm.h>
 #include <boost/shared_ptr.hpp>
 #include <boost/scoped_ptr.hpp>
 
@@ -85,7 +84,7 @@ vector<T> loadvector(CvFileStorage *in, CvFileNode *node) {
     return result;
 }
 
-#include <gtkmm.h>
+//#include <gtkmm.h>
 
 #include "Point.h"
 

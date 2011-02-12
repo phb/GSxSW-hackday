@@ -94,7 +94,11 @@ FB::JSAPIPtr Gazify::createJSAPI()
 
 bool Gazify::onMouseDown(FB::MouseDownEvent *evt, FB::PluginWindow *)
 {
-    printf("Heyo: %s\n", trackAtScreenCoordinates(evt->m_x*2, 100+evt->m_y*2).c_str());
+    std::string s = trackAtScreenCoordinates(evt->m_x*2, 100+evt->m_y*2);
+    if(!s.empty()) {
+        spotify_play(s.c_str());
+    }
+    printf("Heyo: %s\n", s.c_str());
     return false;
 }
 

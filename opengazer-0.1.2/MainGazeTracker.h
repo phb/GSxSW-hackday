@@ -4,7 +4,7 @@
 //#include "Alert.h"
 #include "Calibrator.h"
 #include <opencv/highgui.h>
-#include <gtkmm.h>
+//#include <gtkmm.h>
 
 struct CommandLineArguments {
     vector<char*> parameters;

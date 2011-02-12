@@ -1,10 +1,12 @@
 #include "GazeTracker.h"
-
+#include <boost/bind/mem_fn.hpp>
+#include <boost/bind.hpp>
+#include <boost/functional.hpp>
 int Targets::getCurrentTarget(Point point) {
     vector<double> distances(targets.size());
     //    debugtee(targets);
     transform(targets.begin(), targets.end(), distances.begin(),
-	      sigc::mem_fun(point, &Point::distance));
+	      std::bind1st(std::mem_fun_ref(&Point::distance), point));
     //    debugtee(distances);
     return min_element(distances.begin(), distances.end()) - distances.begin();
 //     for(int i=0; i<targets.size(); i++)
