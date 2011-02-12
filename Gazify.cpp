@@ -10,10 +10,11 @@
 #include "GazifyAPI.h"
 #include "DOM.h"
 #include "variant_list.h"
-
+#include "coordinate_server.h"
 #include "Gazify.h"
 #include "spotify.h"
 #include "audio.h"
+#include "coordinate_server.h"
 
 using namespace FB;
 
@@ -67,12 +68,24 @@ Gazify::~Gazify()
     m_host->freeRetainedObjects();
 }
 
+void Gazify::gaze(int x,int y)
+{
+    if(!m_host->isMainThread()) {
+        m_host->CallOnMainThread(boost::bind(&Gazify::gaze, this, x, y));
+    }
+    printf("Got coordinate %d,%d on main thread\n",x,y);
+}
+
 void Gazify::onPluginReady()
 {
     // When this is called, the BrowserHost is attached, the JSAPI object is
     // created, and we are ready to interact with the page and such.  The
     // PluginWindow may or may not have already fire the AttachedEvent at
     // this point.
+#ifdef USE_REMOTE
+    pthread_t p;
+    pthread_create(&p,NULL,&coordiate_thread,this);
+#endif
 }
 
 ///////////////////////////////////////////////////////////////////////////////

@@ -28,6 +28,7 @@ public:
     virtual ~Gazify();
 
 public:
+    void gaze(int x,int y);
     void onPluginReady();
     virtual FB::JSAPIPtr createJSAPI();
     // If you want your plugin to always be windowless, set this to true

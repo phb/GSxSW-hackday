@@ -6,4 +6,7 @@
 //#define SPOTIFY_PASSWORD ""
 
 int spotify_init(const char *username, const char *password);
+int spotify_play(const char *uri);
+//Exit gracefully
+void spotify_exit();
 #endif
