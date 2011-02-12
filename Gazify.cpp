@@ -42,6 +42,7 @@ void Gazify::StaticDeinitialize()
 {
     // Place one-time deinitialization stuff here. As of FireBreath 1.4 this should
     // always be called just before the plugin library is unloaded
+    spotify_exit();
 }
 
 ///////////////////////////////////////////////////////////////////////////////

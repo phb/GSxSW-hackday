@@ -96,6 +96,7 @@ FB::variant GazifyAPI::echo(const FB::variant& msg)
 
 void GazifyAPI::testEvent(const FB::variant& var)
 {
+    spotify_play("http://open.spotify.com/track/1L2PjQ1D01DX6ayG9BprDP");
     FireEvent("onfired", FB::variant_list_of(var)(true)(1));
 }
 
