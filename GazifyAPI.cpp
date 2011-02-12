@@ -40,7 +40,6 @@ GazifyAPI::GazifyAPI(const GazifyPtr& plugin, const FB::BrowserHostPtr& host) : 
     
     
     registerEvent("onfired");
-    spotify_init("not-valid","not-valid");
 }
 
 ///////////////////////////////////////////////////////////////////////////////

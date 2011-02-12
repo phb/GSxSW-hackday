@@ -12,6 +12,8 @@
 #include "variant_list.h"
 
 #include "Gazify.h"
+#include "spotify.h"
+#include "audio.h"
 
 using namespace FB;
 
@@ -26,6 +28,7 @@ void Gazify::StaticInitialize()
 {
     // Place one-time initialization stuff here; As of FireBreath 1.4 this should only
     // be called once per process
+    spotify_init(SPOTIFY_USER,SPOTIFY_PASSWORD);
 }
 
 ///////////////////////////////////////////////////////////////////////////////

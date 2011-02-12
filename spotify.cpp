@@ -21,18 +21,29 @@
  *
  */
 #include <libspotify/api.h>
+#include <sys/time.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "audio.h"
 
-sp_session *g_session;
 void (*metadata_updated_fn)(void);
 int is_logged_out;
+
+pthread_t g_spotify_tid;
+/// The output queue for audo data
+static audio_fifo_t g_audiofifo;
+static int g_notify_do;
+static pthread_mutex_t g_notify_mutex;
+static pthread_cond_t g_notify_cond;
 
 
 void notify_main_thread(sp_session *session)
 {
-	printf("FIXME!");
+	pthread_mutex_lock(&g_notify_mutex);
+	g_notify_do = 1;
+	pthread_cond_signal(&g_notify_cond);
+	pthread_mutex_unlock(&g_notify_mutex);
 }
 
 /**
@@ -69,8 +80,7 @@ static void logged_in(sp_session *session, sp_error error)
 	my_name = (sp_user_is_loaded(me) ? sp_user_display_name(me) : sp_user_canonical_name(me));
 
 	fprintf(stderr, "Logged in to Spotify as user %s\n", my_name);
-
-//	start_prompt();
+    
 }
 
 /**
@@ -111,6 +121,12 @@ static void metadata_updated(sp_session *sess)
 }
 
 
+static int music_delivery(sp_session *sess, const sp_audioformat *format,
+                          const void *frames, int num_frames)
+{
+    fprintf(stderr,"Music Delivery: %d frames",num_frames);
+    return 0;
+}
 
 /**
  * Session callbacks
@@ -122,17 +138,58 @@ static sp_session_callbacks callbacks = {
 	&connection_error,
 	NULL,
 	&notify_main_thread,
-	NULL,
+	&music_delivery,
 	NULL,
 	&log_message
 };
 
+
 /**
- *
+ * We'll spawn off a new thread which will be the 'spotify main thread'
  */
-int spotify_init(const char *username, const char *password)
+static void *spotify_loop(void *arg)
 {
-	sp_session_config config;
+	sp_session *session = (sp_session *)arg;
+ 	int next_timeout = 0;
+
+	pthread_mutex_init(&g_notify_mutex, NULL);
+	pthread_cond_init(&g_notify_cond, NULL);
+
+    for (;;) {
+		if (next_timeout == 0) {
+			while(!g_notify_do)
+				pthread_cond_wait(&g_notify_cond, &g_notify_mutex);
+		} else {
+			struct timespec ts;
+            
+#if _POSIX_TIMERS > 0
+			clock_gettime(CLOCK_REALTIME, &ts);
+#else
+			struct timeval tv;
+			gettimeofday(&tv, NULL);
+			TIMEVAL_TO_TIMESPEC(&tv, &ts);
+#endif
+			ts.tv_sec += next_timeout / 1000;
+			ts.tv_nsec += (next_timeout % 1000) * 1000000;
+            
+			pthread_cond_timedwait(&g_notify_cond, &g_notify_mutex, &ts);
+		}
+        
+		g_notify_do = 0;
+		pthread_mutex_unlock(&g_notify_mutex);
+        
+		do {
+			sp_session_process_events(session, &next_timeout);
+		} while (next_timeout == 0);
+        
+		pthread_mutex_lock(&g_notify_mutex);
+	}
+    return NULL;
+}
+
+int spotify_init(const char *username,const char *password)
+{
+ 	sp_session_config config;
 	sp_error error;
 	sp_session *session;
 
@@ -169,6 +226,8 @@ int spotify_init(const char *username, const char *password)
 	// Register the callbacks.
 	config.callbacks = &callbacks;
 
+    
+    audio_init(&g_audiofifo);
 	error = sp_session_create(&config, &session);
 	if (SP_ERROR_OK != error) {
 		fprintf(stderr, "failed to create session: %s\n",
@@ -178,16 +237,6 @@ int spotify_init(const char *username, const char *password)
 
 	// Login using the credentials given on the command line.
 	sp_session_login(session, username, password);
-	g_session = session;
-	return 0;
-}
-
-
-/**
- *
- */
-int cmd_logout(int argc, char **argv)
-{
-	sp_session_logout(g_session);
+    pthread_create(&g_spotify_tid, NULL, &spotify_loop, session);
 	return 0;
 }
