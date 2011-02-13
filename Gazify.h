@@ -29,6 +29,7 @@ public:
 
 public:
     void gaze(int x,int y);
+    void postTrackInfo(std::string artist,std::string album,std::string title,const void *data,size_t img_size);
     void onPluginReady();
     virtual FB::JSAPIPtr createJSAPI();
     // If you want your plugin to always be windowless, set this to true

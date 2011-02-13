@@ -3,10 +3,11 @@
 #include "libspotify/api.h"
 #include <string>
 
-#error SPOTIFY_USER "devnevyn"
-//#define SPOTIFY_PASSWORD ""
+#define SPOTIFY_USER "svamp"
+#define SPOTIFY_PASSWORD ""
+class Gazify;
 
-int spotify_init(const char *username, const char *password);
+int spotify_init(Gazify *g , const char *username, const char *password);
 int spotify_play(std::string uri);
 //Exit gracefully
 void spotify_exit();

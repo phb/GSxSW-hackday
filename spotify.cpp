@@ -27,6 +27,7 @@
 #include <string.h>
 #include "spotify.h"
 #include "audio.h"
+#include "Gazify.h"
 #include <list>
 #include <boost/bind.hpp>
 #include <boost/function.hpp>
@@ -36,6 +37,8 @@ typedef struct sp_gazify {
     const char *username;
     const char *password;
     sp_session *session;
+    Gazify * g;
+    sp_track *current_t;
     std::list<boost::function<void()> > inbox;
     pthread_mutex_t inbox_mutex;
     bool want_exit;
@@ -304,12 +307,28 @@ static void *spotify_init_thread(void *arg)
     return NULL;
 }
 
-int spotify_init(const char *username,const char *password)
+int spotify_init(Gazify *g, const char *username,const char *password)
 {
     g_gazify.username = username;
     g_gazify.password = password;
+    g_gazify.g = g;
     pthread_create(&g_spotify_tid, NULL, &spotify_init_thread, &g_gazify);
 	return 0;
+}
+
+static void image_loaded(sp_image *img, void *user)
+{
+    
+    gazify_t *g = (gazify_t*)user;
+    size_t img_size;
+    const void *data = sp_image_data(img,&img_size);
+    sp_artist *a = sp_track_artist(g->current_t,0);
+    sp_album *alb = sp_track_album(g->current_t);
+    
+    g->g->postTrackInfo(sp_artist_name(a),sp_album_name(alb),sp_track_name(g->current_t),data,img_size);
+    sp_image_remove_load_callback(img,&image_loaded,user);
+//    sp_image_release(img);
+//fiuckit, let's leak!
 }
 
 static int try_play(sp_session *session, sp_track *t,int offset)
@@ -332,7 +351,16 @@ static int try_play(sp_session *session, sp_track *t,int offset)
 //        g_current_fifo_idx = (g_current_fifo_idx+1) % 2;
         sp_session_player_seek(session,offset);
         sp_session_player_play(session,true);
-        
+        sp_album *album = sp_track_album(t);
+        if(album) {
+            const byte *id = sp_album_cover(album);
+            g_gazify.current_t = t;
+            if(id) {
+                sp_image *img = sp_image_create(session,id);
+                sp_image_add_load_callback(img,&image_loaded,&g_gazify);
+                
+            }
+        }
         g_track_to_be_played = NULL;
     }
     return err;

@@ -15,6 +15,7 @@
 #include "spotify.h"
 #include "audio.h"
 #include "coordinate_server.h"
+#include "base64.h"
 
 #define USE_REMOTE 1
 using namespace FB;
@@ -30,7 +31,6 @@ void Gazify::StaticInitialize()
 {
     // Place one-time initialization stuff here; As of FireBreath 1.4 this should only
     // be called once per process
-    spotify_init(SPOTIFY_USER,SPOTIFY_PASSWORD);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -69,6 +69,21 @@ Gazify::~Gazify()
     m_host->freeRetainedObjects();
 }
 
+void Gazify::postTrackInfo(std::string artist,std::string album,std::string title,const void *data,size_t img_size)
+{
+    if(!m_host->isMainThread()) {
+        try {
+            m_host->CallOnMainThread(boost::bind(&Gazify::postTrackInfo, this, artist, album,title,data,img_size));
+        } catch (...) {
+            
+        }
+        return;
+    }
+    std::string cover_base64 = base64_encode((unsigned char const*)data , img_size);
+    DOM::DocumentPtr doc = m_host->getDOMDocument();
+    doc->callMethod<void>("gazeInfo", variant_list_of(artist)(album)(title)(cover_base64));
+}
+
 void Gazify::gaze(int x,int y)
 {
     printf("gaze %d %d\n", x, y);
@@ -95,6 +110,7 @@ void Gazify::onPluginReady()
     pthread_t p;
     pthread_create(&p,NULL,&coordiate_thread,this);
 #endif
+    spotify_init(this, SPOTIFY_USER,SPOTIFY_PASSWORD);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
