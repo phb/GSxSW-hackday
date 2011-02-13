@@ -104,9 +104,9 @@ document.gaze = function(x, y) {
 	var e =  document.elementFromPoint(x, y);
 	document.body.appendChild(marker);
     
-    
 	var uri = null;
 	var marker = document.getElementById('gazemarker');
+	
 	marker.style.left = (x + window.scrollX) + 'px';
 	marker.style.top  = (y + window.scrollY) + 'px';
 	
@@ -118,4 +118,12 @@ document.gaze = function(x, y) {
 		e = e.parentNode;
     }
     setContestantElement((e == document) ? null : e);
+}
+
+document.gazeInfo = function(artist, album, title, cover) {
+	$('#gazeinfo-artist').text(artist);
+	$('#gazeinfo-album').text(album);
+	$('#gazeinfo-title').text(title);
+	$('#gazeinfo-cover').css('background', 'url(data:image/png;base64,' + cover + ')');
+	$('#gazeinfo').fadeIn();
 }

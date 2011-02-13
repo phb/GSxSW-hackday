@@ -13,6 +13,65 @@
 		.red { position: absolute; top: 10px; left: 10px; background-color: red;}
 		.green { position: absolute; top: 10px; left: 10px; background-color: green;}
 		#gazemarker { position: absolute; width: 10px; height: 10px; background-color: #ff00ff;}
+		#gazeinfo {
+			display:none;
+			position: fixed;
+			width: 500px;
+			height: 100px;
+			left: 0px;
+			bottom: 0px;
+			background: rgba(0, 0, 0, 0.9);
+			z-index: 1;
+			margin: 15px;
+			-moz-border-radius: 15px;
+			-webkit-border-radius: 15px;
+		}
+		#gazeinfo-cover {
+			position: relative;
+			left: 10px;
+			top: 10px;
+			width: 78px;
+			height: 78px;
+			background: url('http://upload.wikimedia.org/wikipedia/en/2/20/JMJ_Deserted_palace_albumcover.JPG');
+			border: 1px solid white;
+			-moz-background-size: 78px;
+			-webkit-background-size: 78px;
+			-moz-border-radius: 10px;
+			-webkit-border-radius: 10px;
+			float: left;
+		}
+		#gazeinfo-title {
+			position: relative;
+			left: 25px;
+			top: 25px;
+			color: white;
+			font-size: 20px;
+		}
+		#gazeinfo-album {
+			position: relative;
+			left: 25px;
+			top: 15px;
+			color: grey;
+			font-size: 20px;
+			display: none;
+		}
+		#gazeinfo-album:before {
+			content: '(';
+		}
+		#gazeinfo-album:after {
+			content: ')';
+		}
+		#gazeinfo-artist {
+			position: relative;
+			left: 25px;
+			top: 25px;
+			color: white;
+			font-size: 20px;
+		}
+		#gazeinfo-artist:before {
+			color: grey;
+			content: 'by ';
+		}
 		/*]]>*/
 		</style>
 		<script type="text/javascript">
@@ -59,8 +118,8 @@
 		}
 		//]]>
 		</script>
-		<script src="js/gazify.js" type="text/javascript" charset="utf-8">
-</script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.0/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/gazify.js" type="text/javascript" charset="utf-8"></script>
 		<link rel="stylesheet" href="./JMJ_wikipedia_files/main-ltr.css" type="text/css" media="screen" />
 		<link rel="stylesheet" href="./JMJ_wikipedia_files/shared.css" type="text/css" media="screen" />
 		<link rel="stylesheet" href="./JMJ_wikipedia_files/commonPrint.css" type="text/css" media="print" />
@@ -80,6 +139,15 @@
 		</p>
 		<div id="dbg">
 			&nbsp;
+		</div>
+		<div id="gazemarker">
+			&nbsp;
+		</div>
+		<div id="gazeinfo">
+			<div id="gazeinfo-cover"></div>
+			<span id="gazeinfo-title">Track</span>
+			<span id="gazeinfo-album">Deserted Palace</span><br />
+			<span id="gazeinfo-artist">Jean Michel Jarre</span>
 		</div>
 		<div id="mw-page-base" class="noprint"></div>
 		<div id="mw-head-base" class="noprint"></div><!-- content -->
