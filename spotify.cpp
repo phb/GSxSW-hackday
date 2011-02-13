@@ -334,8 +334,9 @@ static void image_loaded(sp_image *img, void *user)
     sp_artist *a = sp_track_artist(g->current_t,0);
     sp_album *alb = sp_track_album(g->current_t);
     
+    
     g->g->postTrackInfo(sp_artist_name(a),sp_album_name(alb),sp_track_name(g->current_t),data,img_size);
-    sp_image_remove_load_callback(img,&image_loaded,user);
+    //sp_image_remove_load_callback(img,&image_loaded,user);
 //    sp_image_release(img);
 //fiuckit, let's leak!
 }

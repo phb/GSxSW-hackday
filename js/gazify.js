@@ -105,7 +105,6 @@ document.gaze = function(x, y) {
 	document.body.appendChild(marker);
     
 	var uri = null;
-	var marker = document.getElementById('gazemarker');
 	
 	marker.style.left = (x + window.scrollX) + 'px';
 	marker.style.top  = (y + window.scrollY) + 'px';
@@ -126,4 +125,5 @@ document.gazeInfo = function(artist, album, title, cover) {
 	$('#gazeinfo-title').text(title);
 	$('#gazeinfo-cover').css('background', 'url(data:image/png;base64,' + cover + ')');
 	$('#gazeinfo').fadeIn();
+	console.log("helloo world");
 }
