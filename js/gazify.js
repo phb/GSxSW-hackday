@@ -34,35 +34,87 @@ document.elementFromScreenPoint = function(x, y) {
 	return document.elementFromPoint(x, y);
 }
 
+var currentElement           = null;
+var currentTrack             = null;
+var contestantElement        = null;
+var contestantUnderGazeSince = 0;
+
+var setCurrentElement = function(e) {
+    if(e == currentElement)
+		return;
+
+    console.log("current element is now " + e);
+
+    if(currentElement)
+		currentElement.style.backgroundColor = "white";
+
+    currentElement = e;
+    currentTrack   = e ? e.getAttribute("gazemusic") : null;
+
+    if(e){
+		e.style.backgroundColor = "green";
+
+        plugin().playTrack(currentTrack);
+    } // else pause
+}
+
+var setContestantElement = function(e) {
+    if(e == currentElement)
+		return;
+
+    var now = (new Date).getTime();
+
+    if(e == contestantElement) {
+        if(now - contestantUnderGazeSince > 2000) {
+            setCurrentElement(contestantElement);
+
+            contestantElement        = null;
+            contestantUnderGazeSince = 0;
+        }
+
+        return;
+    }
+    else {
+        if(contestantElement)
+			contestantElement.style.backgroundColor = "white";
+
+        contestantElement        = e;
+        contestantUnderGazeSince = now;
+
+        if(contestantElement)
+			contestantElement.style.backgroundColor = "yellow";
+    }
+}
+
+
+var marker = document.getElementById('gazemarker');
+
 document.addEventListener("click", function(e) {
-	console.log(e.screenY);
-
 	document.gaze(e.clientX, e.clientY);
-}, true);
 
-var oldElement = null;
+	marker.style.left = e.pageX + 'px';
+	marker.style.top  = e.pageY + 'px';
+}, false);
+
+document.addEventListener("mousemove", function(e) {
+	document.gaze(e.clientX, e.clientY);
+
+	marker.style.left = e.pageX + 'px';
+	marker.style.top  = e.pageY + 'px';
+}, false);
 
 document.gaze = function(x, y) {
-	var marker = document.getElementById('gazemarker');
-	var e      = document.elementFromPoint(x, y);
-	var uri    = null;
+	var e   = document.elementFromPoint(x, y);
+	var uri = null;
 
-	marker.style.top  = y + 'px';
-	marker.style.left = x + 'px';
+    while(e != undefined && e != document){
+		var uri = e.getAttribute('gazemusic');
 
-	if(oldElement)
-		oldElement.style.backgroundColor =  'white';
+		if(uri && uri.length > 0)
+			break;
 
-    while(e != undefined && e != document && (uri = e.getAttribute('gazemusic')) == null){
 		e = e.parentNode;
     }
 
-	if(uri != null){
-		console.log(uri);
-		plugin().playTrack(uri);
-
-		e.style.backgroundColor = 'red';
-
-		oldElement = e;
-	}
+    setContestantElement((e == document) ? null : e);
 }
