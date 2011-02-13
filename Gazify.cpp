@@ -54,7 +54,6 @@ void Gazify::StaticDeinitialize()
 ///////////////////////////////////////////////////////////////////////////////
 Gazify::Gazify()
 {
-    cvCaptureFromCAM(0);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -72,7 +71,7 @@ Gazify::~Gazify()
 
 void Gazify::gaze(int x,int y)
 {
-    static std::string current;
+    printf("gaze %d %d\n", x, y);
     if(!m_host->isMainThread()) {
         try {
             m_host->CallOnMainThread(boost::bind(&Gazify::gaze, this, x, y));
@@ -81,6 +80,7 @@ void Gazify::gaze(int x,int y)
         }
         return;
     }
+
     DOM::DocumentPtr doc = m_host->getDOMDocument();
     doc->callMethod<void>("gaze", variant_list_of(x)(y));
 }

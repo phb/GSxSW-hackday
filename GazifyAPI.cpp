@@ -24,22 +24,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 GazifyAPI::GazifyAPI(const GazifyPtr& plugin, const FB::BrowserHostPtr& host) : m_plugin(plugin), m_host(host)
 {
-    registerMethod("echo",      make_method(this, &GazifyAPI::echo));
-    registerMethod("testEvent", make_method(this, &GazifyAPI::testEvent));
-
-    // Read-write property
-    registerProperty("testString",
-                     make_property(this,
-                        &GazifyAPI::get_testString,
-                        &GazifyAPI::set_testString));
-
-    // Read-only property
-    registerProperty("version",
-                     make_property(this,
-                        &GazifyAPI::get_version));
-    
-    
-    registerEvent("onfired");
+    registerMethod("playTrack",      make_method(this, &GazifyAPI::playTrack));
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -71,31 +56,9 @@ GazifyPtr GazifyAPI::getPlugin()
 }
 
 
-
-// Read/Write property testString
-std::string GazifyAPI::get_testString()
+void GazifyAPI::playTrack(std::string var)
 {
-    return m_testString;
-}
-void GazifyAPI::set_testString(const std::string& val)
-{
-    m_testString = val;
-}
-
-// Read-only property version
-std::string GazifyAPI::get_version()
-{
-    return "CURRENT_VERSION";
-}
-
-// Method echo
-FB::variant GazifyAPI::echo(const FB::variant& msg)
-{
-    return msg;
-}
-
-void GazifyAPI::testEvent(const FB::variant& var)
-{
-    FireEvent("onfired", FB::variant_list_of(var)(true)(1));
+    printf("playing %s\n", var.c_str());
+    spotify_play(var.c_str());
 }
 

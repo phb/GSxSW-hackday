@@ -8,10 +8,9 @@
   p { font-size: 20px;}
   .red { position: absolute; top: 10px; left: 10px; background-color: red;}
   .green { position: absolute; top: 10px; left: 10px; background-color: green;}
-</style></head>
+  #gazemarker { position: absolute; width: 10px; height: 10px; background-color: yellow;}
+</style>
     <script type="text/javascript">
-    document.gaze = function(x,y) {
-    }
         function plugin0()
         {
             return document.getElementById('plugin0');
@@ -53,11 +52,15 @@
             alert(plugin().valid);
         }
     </script>
+	<script src="js/gazify.js" type="text/javascript" charset="utf-8"></script>
+</head>
 <body onload="load()" gazemusic="spotify:track:abc">
 <object id="plugin0" type="application/x-gazify" width="100" height="100">
     <param name="onload" value="pluginLoaded" />
 </object><br />
 
+<div id="dbg">&nbsp;</div>
+<div id="gazemarker">&nbsp;</div>
 <h1> Fun Paragraphs </h1>
 <p gazemusic="spotify:track:4rp7e604nblHYU7J6fchZP">
 <i>(Song : Queen - Who wants to live forever)</i>

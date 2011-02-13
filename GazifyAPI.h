@@ -22,18 +22,8 @@ public:
 
     GazifyPtr getPlugin();
 
-    // Read/Write property ${PROPERTY.ident}
-    std::string get_testString();
-    void set_testString(const std::string& val);
-
-    // Read-only property ${PROPERTY.ident}
-    std::string get_version();
-
-    // Method echo
-    FB::variant echo(const FB::variant& msg);
+    void playTrack(std::string uri);
     
-    // Method test-event
-    void testEvent(const FB::variant& s);
 
 private:
     GazifyWeakPtr m_plugin;

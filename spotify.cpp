@@ -336,10 +336,10 @@ static int try_play(sp_session *session, sp_track *t)
 }
 
 #warning We don't log errors.. but it's hackhack..
-static void _spotify_play(sp_session *session, const char *uri)
+static void _spotify_play(sp_session *session, std::string uri)
 {
     assert(pthread_equal(pthread_self(),g_spotify_tid));
-    sp_link *l = sp_link_create_from_string(uri);
+    sp_link *l = sp_link_create_from_string(uri.c_str());
     sp_error err;
     int offset;
     if(!l || sp_link_type(l) != SP_LINKTYPE_TRACK) {
@@ -359,7 +359,7 @@ void spotify_mainthread(sp_session *session, boost::function<void()> f)
     pthread_mutex_unlock(&g_gazify.inbox_mutex);
 }
 
-int spotify_play(const char *uri)
+int spotify_play(std::string uri)
 {
     spotify_mainthread(g_gazify.session, boost::bind(_spotify_play,g_gazify.session,uri));
     return 0;
