@@ -3,7 +3,7 @@
 #include "libspotify/api.h"
 #include <string>
 
-#error SPOTIFY_USER "svamp"
+#error SPOTIFY_USER "devnevyn"
 //#define SPOTIFY_PASSWORD ""
 
 int spotify_init(const char *username, const char *password);

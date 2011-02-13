@@ -24,14 +24,14 @@
 			isa = PBXContainerItemProxy;
 			containerPortal = 057FD1941306F052008389B0 /* Gazify.xcodeproj */;
 			proxyType = 2;
-			remoteGlobalIDString = 5F69905F69905F6990000000 /* Gazify.plugin */;
+			remoteGlobalIDString = 5F69905F69905F6990000000;
 			remoteInfo = Gazify;
 		};
 		EB8AF2A91307C4A9001EA10B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 057FD1941306F052008389B0 /* Gazify.xcodeproj */;
 			proxyType = 2;
-			remoteGlobalIDString = 6B28306B28306B2830000000 /* libGAZ_PluginAuto.a */;
+			remoteGlobalIDString = 6B28306B28306B2830000000;
 			remoteInfo = GAZ_PluginAuto;
 		};
 /* End PBXContainerItemProxy section */

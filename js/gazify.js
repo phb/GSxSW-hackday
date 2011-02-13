@@ -5,7 +5,6 @@ var isChrome = function() {
 var isSafari = function() {
 	return navigator.vendor.indexOf('Apple') != -1;
 }
-
 var isFirefox = function() {
 	return navigator.userAgent.indexOf('Firefox') != -1;
 }
@@ -87,26 +86,19 @@ var setContestantElement = function(e) {
 }
 
 document.addEventListener("click", function(e) {
-	var marker = document.getElementById('gazemarker');
-
 	document.gaze(e.clientX, e.clientY);
-
-	marker.style.left = e.pageX + 'px';
-	marker.style.top  = e.pageY + 'px';
 }, false);
 
 document.addEventListener("mousemove", function(e) {
-	var marker = document.getElementById('gazemarker');
-
 	document.gaze(e.clientX, e.clientY);
-
-	marker.style.left = e.pageX + 'px';
-	marker.style.top  = e.pageY + 'px';
 }, false);
 
 document.gaze = function(x, y) {
 	var e   = document.elementFromPoint(x, y);
 	var uri = null;
+	var marker = document.getElementById('gazemarker');
+	marker.style.left = (x + window.scrollX) + 'px';
+	marker.style.top  = (y + window.scrollY) + 'px';
 
     while(e != undefined && e != document){
 		var uri = e.getAttribute('gazemusic');
