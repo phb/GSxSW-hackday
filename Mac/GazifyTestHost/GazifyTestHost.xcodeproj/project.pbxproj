@@ -9,36 +9,30 @@
 /* Begin PBXBuildFile section */
 		057FD1931306F020008389B0 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 057FD1921306F020008389B0 /* WebKit.framework */; };
 		057FD1AF1306F083008389B0 /* test.htm in Resources */ = {isa = PBXBuildFile; fileRef = 057FD1AE1306F083008389B0 /* test.htm */; };
-		057FD22D1306F2EC008389B0 /* Gazify.plugin in Copy Plugins */ = {isa = PBXBuildFile; fileRef = 057FD19B1306F052008389B0 /* Gazify.plugin */; };
 		057FD6791307827E008389B0 /* js in Resources */ = {isa = PBXBuildFile; fileRef = 057FD6751307827E008389B0 /* js */; };
 		1DDD58160DA1D0A300B32029 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1DDD58140DA1D0A300B32029 /* MainMenu.xib */; };
 		256AC3DA0F4B6AC300CF3369 /* GazifyTestHostAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 256AC3D90F4B6AC300CF3369 /* GazifyTestHostAppDelegate.m */; };
 		8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165CFE840E0CC02AAC07 /* InfoPlist.strings */; };
 		8D11072D0486CEB800E47090 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
+		EB8AF3111307CF0E001EA10B /* JMJ_wikipedia.html in Resources */ = {isa = PBXBuildFile; fileRef = EB8AF2E81307CF0E001EA10B /* JMJ_wikipedia.html */; };
+		EB8AF33E1307CF37001EA10B /* JMJ_wikipedia_files in Resources */ = {isa = PBXBuildFile; fileRef = EB8AF3141307CF37001EA10B /* JMJ_wikipedia_files */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		057FD19A1306F052008389B0 /* PBXContainerItemProxy */ = {
+		EB8AF2A71307C4A9001EA10B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 057FD1941306F052008389B0 /* Gazify.xcodeproj */;
 			proxyType = 2;
-			remoteGlobalIDString = 100592870100592870100592;
+			remoteGlobalIDString = 5F69905F69905F6990000000 /* Gazify.plugin */;
 			remoteInfo = Gazify;
 		};
-		057FD19C1306F052008389B0 /* PBXContainerItemProxy */ = {
+		EB8AF2A91307C4A9001EA10B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 057FD1941306F052008389B0 /* Gazify.xcodeproj */;
 			proxyType = 2;
-			remoteGlobalIDString = 1005E48701005E48701005E4;
+			remoteGlobalIDString = 6B28306B28306B2830000000 /* libGAZ_PluginAuto.a */;
 			remoteInfo = GAZ_PluginAuto;
-		};
-		057FD1CD1306F0F4008389B0 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 057FD1941306F052008389B0 /* Gazify.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 100584AE0100584AE0100584 /* Gazify */;
-			remoteInfo = Gazify;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -49,7 +43,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
-				057FD22D1306F2EC008389B0 /* Gazify.plugin in Copy Plugins */,
 			);
 			name = "Copy Plugins";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -58,7 +51,7 @@
 
 /* Begin PBXFileReference section */
 		057FD1921306F020008389B0 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
-		057FD1941306F052008389B0 /* Gazify.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Gazify.xcodeproj; path = "../../../../firebreath-dev/build/projects/Gazify/Gazify.xcodeproj"; sourceTree = SOURCE_ROOT; };
+		057FD1941306F052008389B0 /* Gazify.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Gazify.xcodeproj; path = ../../../../FireBreath/build/projects/Gazeify/Gazify.xcodeproj; sourceTree = SOURCE_ROOT; };
 		057FD1AE1306F083008389B0 /* test.htm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = test.htm; path = ../../test.htm; sourceTree = SOURCE_ROOT; };
 		057FD6751307827E008389B0 /* js */ = {isa = PBXFileReference; lastKnownFileType = folder; name = js; path = ../../js; sourceTree = SOURCE_ROOT; };
 		089C165DFE840E0CC02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -70,6 +63,8 @@
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* GazifyTestHost-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GazifyTestHost-Info.plist"; sourceTree = "<group>"; };
 		8D1107320486CEB800E47090 /* GazifyTestHost.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GazifyTestHost.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		EB8AF2E81307CF0E001EA10B /* JMJ_wikipedia.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = JMJ_wikipedia.html; path = ../../JMJ_wikipedia.html; sourceTree = SOURCE_ROOT; };
+		EB8AF3141307CF37001EA10B /* JMJ_wikipedia_files */ = {isa = PBXFileReference; lastKnownFileType = folder; name = JMJ_wikipedia_files; path = ../../JMJ_wikipedia_files; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -85,15 +80,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		057FD1951306F052008389B0 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				057FD19B1306F052008389B0 /* Gazify.plugin */,
-				057FD19D1306F052008389B0 /* libGAZ_PluginAuto.a */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
@@ -136,6 +122,8 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				EB8AF3141307CF37001EA10B /* JMJ_wikipedia_files */,
+				EB8AF2E81307CF0E001EA10B /* JMJ_wikipedia.html */,
 				057FD6751307827E008389B0 /* js */,
 				057FD1AE1306F083008389B0 /* test.htm */,
 				8D1107310486CEB800E47090 /* GazifyTestHost-Info.plist */,
@@ -154,6 +142,15 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		EB8AF2A21307C4A9001EA10B /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				EB8AF2A81307C4A9001EA10B /* Gazify.plugin */,
+				EB8AF2AA1307C4A9001EA10B /* libGAZ_PluginAuto.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -170,7 +167,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				057FD1CE1306F0F4008389B0 /* PBXTargetDependency */,
 			);
 			name = GazifyTestHost;
 			productInstallPath = "$(HOME)/Applications";
@@ -197,7 +193,7 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = 057FD1951306F052008389B0 /* Products */;
+					ProductGroup = EB8AF2A21307C4A9001EA10B /* Products */;
 					ProjectRef = 057FD1941306F052008389B0 /* Gazify.xcodeproj */;
 				},
 			);
@@ -209,18 +205,18 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		057FD19B1306F052008389B0 /* Gazify.plugin */ = {
+		EB8AF2A81307C4A9001EA10B /* Gazify.plugin */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
 			path = Gazify.plugin;
-			remoteRef = 057FD19A1306F052008389B0 /* PBXContainerItemProxy */;
+			remoteRef = EB8AF2A71307C4A9001EA10B /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		057FD19D1306F052008389B0 /* libGAZ_PluginAuto.a */ = {
+		EB8AF2AA1307C4A9001EA10B /* libGAZ_PluginAuto.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
 			path = libGAZ_PluginAuto.a;
-			remoteRef = 057FD19C1306F052008389B0 /* PBXContainerItemProxy */;
+			remoteRef = EB8AF2A91307C4A9001EA10B /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -234,6 +230,8 @@
 				1DDD58160DA1D0A300B32029 /* MainMenu.xib in Resources */,
 				057FD1AF1306F083008389B0 /* test.htm in Resources */,
 				057FD6791307827E008389B0 /* js in Resources */,
+				EB8AF3111307CF0E001EA10B /* JMJ_wikipedia.html in Resources */,
+				EB8AF33E1307CF37001EA10B /* JMJ_wikipedia_files in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -266,14 +264,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		057FD1CE1306F0F4008389B0 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = Gazify;
-			targetProxy = 057FD1CD1306F0F4008389B0 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		089C165CFE840E0CC02AAC07 /* InfoPlist.strings */ = {

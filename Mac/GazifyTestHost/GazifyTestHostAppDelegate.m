@@ -13,7 +13,7 @@
 @synthesize window;
 -(void)foo;
 {
-	[webView setMainFrameURL:[[NSBundle mainBundle] pathForResource:@"test" ofType:@"htm"]];
+	[webView setMainFrameURL:[[NSBundle mainBundle] pathForResource:@"JMJ_wikipedia" ofType:@"html"]];
 }
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
     [self performSelector:@selector(foo) withObject:nil afterDelay:.1];

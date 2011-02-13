@@ -361,6 +361,7 @@ void spotify_mainthread(sp_session *session, boost::function<void()> f)
 
 int spotify_play(std::string uri)
 {
+    printf("Try to play: %s\n",uri.c_str());
     spotify_mainthread(g_gazify.session, boost::bind(_spotify_play,g_gazify.session,uri));
     return 0;
 }
