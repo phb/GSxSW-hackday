@@ -8,37 +8,65 @@ function elementFromScreenPoint(x, y) {
 	//y += document.body.scrollTop;
 	//y -= 96;
 	y -= 22;
+	var gazemarker = document.getElementById("gazemarker");
+	document.body.removeChild(gazemarker)
 	el = document.elementFromPoint(x, y);
+	document.body.appendChild(gazemarker)
 	y += document.body.scrollTop;
-	if(!el)
-		consolelog("did not Found el!")
-	consolelog("doc location supposedly " + x + ", " + y)
-	document.getElementById("gazemarker").style.top = y+"px";
-	document.getElementById("gazemarker").style.left = x+"px";
+/*	if(!el)
+		consolelog("did not Found el!")*/
+	//consolelog("doc location supposedly " + x + ", " + y)
+	gazemarker.style.top = y+"px";
+	gazemarker.style.left = x+"px";
 	return el;
 }
 document.addEventListener("mousemove", function(e) {
-	el = document.elementFromPoint(e.pageX, e.pageY);
-	if(!el) {
-		consolelog("No E");
-	} else {
-		consolelog("Found E!");
-	}
+	document.gaze(e.pageX, e.pageY);
 });
 
-var oldElement = undefined;
+var currentElement = null;
+var currentTrack = null;
+var contestantElement = null;
+var contestantUnderGazeSince = 0;
+function setCurrentElement(el) {
+    if(el == currentElement) return;
+    consolelog("current element is now " + el);
+    if(currentElement) currentElement.style.backgroundColor = "white"
+    currentElement = el;
+    currentTrack = el ? el.getAttribute("gazemusic") : null;
+    if(el) {
+        el.style.backgroundColor = "green";
+        plugin().playTrack(currentTrack);
+    } // else pause
+}
+function setContestantElement(el) {
+    if(el == currentElement) return;
+    
+    var now = (new Date).getTime();
+    if(el == contestantElement) {
+        if(now - contestantUnderGazeSince > 2000) {
+            setCurrentElement(contestantElement);
+            contestantElement = null;
+            contestantUnderGazeSince = 0;
+        }
+        return;
+    } else {
+        if(contestantElement) contestantElement.style.backgroundColor = "white";
+        contestantElement = el;
+        contestantUnderGazeSince = now;
+        if(contestantElement) contestantElement.style.backgroundColor = "yellow";
+    }
+}
+
 document.gaze = function(x,y) {
 	var el = elementFromScreenPoint(x, y);
-
-	if(oldElement) oldElement.style.backgroundColor =  "white";
-    while(el != undefined && el != document) {
-        if(el.getAttribute("gazemusic") != "") {
-            plugin().playTrack(el.getAttribute("gazemusic"))
-			el.style.backgroundColor = "red";
-			oldElement = el;
+    while(el != null && el != document) {
+        var track = el.getAttribute("gazemusic");
+        if(track && track.length > 0) {
             break;
         }
 		el = el.parentNode;
-		consolelog("Iterating to parent")
     }
+    if(el == document) el = null;
+    setContestantElement(el);
 }
