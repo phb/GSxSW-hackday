@@ -81,6 +81,12 @@ static void connection_error(sp_session *session, sp_error error)
 	                sp_error_message(error));
 }
 
+sp_playlist_callbacks empty_callbacks = {0};
+
+void foo(sp_playlist *bar, void *baz) {
+    printf("playlist is loaded? %d\n", sp_playlist_is_loaded(bar));
+}
+
 /**
  * This callback is called when an attempt to login has succeeded or failed.
  *
@@ -103,6 +109,9 @@ static void logged_in(sp_session *session, sp_error error)
 	my_name = (sp_user_is_loaded(me) ? sp_user_display_name(me) : sp_user_canonical_name(me));
 
 	fprintf(stderr, "Logged in to Spotify as user %s\n", my_name);
+    sp_playlist *pl = sp_playlist_create(session, sp_link_create_from_string("spotify:user:devnevyn:playlist:44ZXlJstDZrwuQvWPOo7KX"));
+    empty_callbacks.playlist_state_changed = foo;
+    sp_playlist_add_callbacks(pl, &empty_callbacks, NULL);
 }
 
 /**
