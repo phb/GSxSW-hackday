@@ -86,10 +86,9 @@ var setContestantElement = function(e) {
     }
 }
 
-
-var marker = document.getElementById('gazemarker');
-
 document.addEventListener("click", function(e) {
+	var marker = document.getElementById('gazemarker');
+
 	document.gaze(e.clientX, e.clientY);
 
 	marker.style.left = e.pageX + 'px';
@@ -97,6 +96,8 @@ document.addEventListener("click", function(e) {
 }, false);
 
 document.addEventListener("mousemove", function(e) {
+	var marker = document.getElementById('gazemarker');
+
 	document.gaze(e.clientX, e.clientY);
 
 	marker.style.left = e.pageX + 'px';
