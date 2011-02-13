@@ -16,8 +16,7 @@
 #include "audio.h"
 #include "coordinate_server.h"
 
-#include <opencv/highgui.h>
-
+#define USE_REMOTE 1
 using namespace FB;
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -73,10 +72,17 @@ Gazify::~Gazify()
 
 void Gazify::gaze(int x,int y)
 {
+    static std::string current;
     if(!m_host->isMainThread()) {
-        m_host->CallOnMainThread(boost::bind(&Gazify::gaze, this, x, y));
+        try {
+            m_host->CallOnMainThread(boost::bind(&Gazify::gaze, this, x, y));
+        } catch (...) {
+
+        }
+        return;
     }
-    printf("Got coordinate %d,%d on main thread\n",x,y);
+    DOM::DocumentPtr doc = m_host->getDOMDocument();
+    doc->callMethod<void>("gaze", variant_list_of(x)(y));
 }
 
 void Gazify::onPluginReady()
@@ -110,11 +116,6 @@ FB::JSAPIPtr Gazify::createJSAPI()
 
 bool Gazify::onMouseDown(FB::MouseDownEvent *evt, FB::PluginWindow *)
 {
-    std::string s = trackAtScreenCoordinates(evt->m_x*2, 100+evt->m_y*2);
-    if(!s.empty()) {
-        spotify_play(s.c_str());
-    }
-    printf("Heyo: %s\n", s.c_str());
     return false;
 }
 
@@ -141,13 +142,41 @@ bool Gazify::onWindowDetached(FB::DetachedEvent *evt, FB::PluginWindow *)
 
 std::string Gazify::trackAtScreenCoordinates(float x, float y)
 {
-    Rect wndRect = GetWindow()->getWindowPosition();
-    /*x -= wndRect.left;
-    y -= wndRect.top;*/ // add back when we get real coordinates
-    DOM::DocumentPtr doc = m_host->getDOMDocument();
-    JSObjectPtr elementUnderGazeJs = doc->callMethod<JSObjectPtr>("elementFromPoint", variant_list_of(x)(y));
+    /*
+    std::string ret = "";
+    DOM::WindowPtr win = m_host->getDOMWindow();
     
-    std::string ret = "<nothing>";
+    int win_x = win->getProperty<int>("screenX");
+    int win_y = win->getProperty<int>("screenY");
+    int win_w = win->getProperty<int>("innerWidth");
+    int win_h = win->getProperty<int>("innerHeight");
+    fprintf(stderr,"inp: %d,%d and %d,%d,%d,%d\n",(int)x,(int)y,win_x,win_y,win_w,win_h);
+    x -= win_x;
+    y -= win_y;
+    if(x < 0 || y < 0 || x > win_w || y > win_h)
+    {
+        printf("Coordinate outside window\n");
+    }
+    x += win->getProperty<int>("pageXOffset");
+    y += win->getProperty<int>("pageYOffset");
+    printf("PageXOffset: %d, YOff: %d\n",win->getProperty<int>("pageXOffset"),win->getProperty<int>("pageYOffset"));
+    
+    printf("Window coordinates: %d,%d\n",(int)x,(int)y);
+    JSObjectPtr elementUnderGazeJs = doc->callMethod<JSObjectPtr>("elementFromPoint", variant_list_of(x)(y));
+//DEBUG
+    
+    
+    FB::DOM::ElementPtr blobb = doc->getElementById("red_blobb");
+    printf("style: %s\n",blobb->getStringAttribute("class").c_str());
+    blobb->setProperty("real_left","100px");
+    blobb->setProperty("real_top","100px");
+
+
+ //    printf("%d\n",blobb->getWidth());
+//    blobb->setInnerHTML("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+//    printf("TYPE: %s\n",blobb->getProperty("nodeType").c_str());
+//    blobb->setProperty("top",y);
+    
     int depth = 0;
     while (elementUnderGazeJs && depth < 100) { // walking up the tree looking for gazemusic attr
         DOM::ElementPtr elementUnderGaze = DOM::Element::create(elementUnderGazeJs);
@@ -162,5 +191,6 @@ std::string Gazify::trackAtScreenCoordinates(float x, float y)
         depth++;
     }
     return ret;
+     */
 }
 
