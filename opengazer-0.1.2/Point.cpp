@@ -1,5 +1,4 @@
 #include "utils.h"
-
 void convert(const Point& point, CvPoint2D32f& p) {
     p.x = point.x;
     p.y = point.y;
@@ -64,6 +63,6 @@ int Point::closestPoint(const vector<Point> &points) const {
 
     vector<double> distances(points.size());
     transform(points.begin(), points.end(), distances.begin(), 
-	      sigc::mem_fun(*this, &Point::distance));
+	      std::bind1st(std::mem_fun_ref(&Point::distance), *this));
     return min_element(distances.begin(), distances.end()) - distances.begin();
 }

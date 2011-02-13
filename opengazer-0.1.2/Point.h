@@ -24,5 +24,6 @@ struct Point {
 
 ostream& operator<< (ostream& out, const Point& p);
 istream& operator>> (istream& in, Point& p);
+
 void convert(const Point& point, CvPoint2D32f& p);
 

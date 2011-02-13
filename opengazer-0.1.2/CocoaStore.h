@@ -4,9 +4,9 @@
 
 
 class WindowStore: public AbstractStore {
+    WindowPointer pointer, target;
  public:
     WindowStore(const WindowPointer::PointerSpec& pointerspec,
 		const WindowPointer::PointerSpec& targetspec);
-    ~WindowStore();
     virtual void store(const TrackerOutput &output);
 };

@@ -1,25 +1,19 @@
-#include "GtkStore.h"
+#include "CocoaStore.h"
+#define Point MacTypePoint
+#import <Cocoa/Cocoa.h>
+#undef Point
 
-static NSWindow *pointerWindow;
-static NSWindow *targetWindow;
-
-WindowStore::WindowStore(const WindowPointer::PointerSpec& pointerspec,
-			 const WindowPointer::PointerSpec& targetspec)
+WindowPointer::WindowPointer(const WindowPointer::PointerSpec& pointerspec)
 {
-    pointerWindow = [[NSWindow alloc] initWithContentRect:NSMakeRect(0, 0, pointerspec.width, pointerspec.height) styleMask:NSBorderlessWindowMask backing:NSBackingStoreBuffered defer:NO];
+    NSWindow *pointerWindow = [[NSWindow alloc] initWithContentRect:NSMakeRect(0, 0, pointerspec.width, pointerspec.height) styleMask:NSBorderlessWindowMask backing:NSBackingStoreBuffered defer:NO];
     [pointerWindow setBackgroundColor:[NSColor colorWithDeviceRed:pointerspec.red green:pointerspec.green blue:pointerspec.blue alpha:1]];
     [pointerWindow orderFront:nil];
-    
-    targetWindow = [[NSWindow alloc] initWithContentRect:NSMakeRect(0, 0, targetspec.width, targetspec.height) styleMask:NSBorderlessWindowMask backing:NSBackingStoreBuffered defer:NO];
-    [targetWindow setBackgroundColor:[NSColor colorWithDeviceRed:targetspec.red green:targetspec.green blue:targetspec.blue alpha:1]];
-    [targetWindow orderFront:nil];
+    window = pointerWindow;
 }
-WindowStore::~WindowStore()
+WindowPointer::~WindowPointer()
 {
-    [pointerWindow release]; pointerWindow = nil;
-    [targetWindow release]; targetWindow = nil;
+     [(id)window release]; window = nil;
 }
-
 NSPoint inverse(Point foo)
 {
     NSScreen *s = [NSScreen mainScreen];
@@ -29,8 +23,18 @@ NSPoint inverse(Point foo)
     return p;
 }
 
+void WindowPointer::setPosition(int x, int y)
+{
+    [(id)window setFrameOrigin:inverse(Point(x, y))];
+}
+
+WindowStore::WindowStore(const WindowPointer::PointerSpec& pointerspec,
+			 const WindowPointer::PointerSpec& targetspec) : pointer(pointerspec), target(targetspec)
+{
+}
+
+
 void WindowStore::store(const TrackerOutput &output) {
-    
-    [pointerWindow setFrameOrigin:inverse(output.gazepoint)];
-    [targetWindow setFrameOrigin:inverse(output.target)];
+    pointer.setPosition(output.gazepoint.x, output.gazepoint.y);
+    target.setPosition(output.target.x, output.target.y);
 }

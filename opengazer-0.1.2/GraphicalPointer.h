@@ -24,9 +24,11 @@ class WindowPointer {
         GtkPointerWindow(const PointerSpec &pointerspec);
     };  
     GtkPointerWindow pointerwindow;*/
+    void *window;
  public:
     WindowPointer(const PointerSpec &pointerspec);
-    void setPosition(int x, int y);
+    virtual ~WindowPointer();
+    virtual void setPosition(int x, int y);
 };
 
 /* class PointerMark: public Gtk::DrawingArea { */
