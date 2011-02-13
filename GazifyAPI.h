@@ -23,6 +23,7 @@ public:
     GazifyPtr getPlugin();
 
     void playTrack(std::string uri);
+    void testFade();
     
 
 private:

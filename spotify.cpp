@@ -52,10 +52,10 @@ static int g_notify_do;
 static pthread_mutex_t g_notify_mutex;
 static pthread_cond_t g_notify_cond;
 static sp_track *g_track_to_be_played;
+static int g_track_offset;
 
 
-
-static int try_play(sp_session *session, sp_track *t);
+static int try_play(sp_session *session, sp_track *t,int offset);
 
 void notify_main_thread(sp_session *session)
 {
@@ -137,7 +137,7 @@ static void metadata_updated(sp_session *session)
 {
     fprintf(stderr,"metadata updated\n");
     if(g_track_to_be_played)
-        try_play(session,g_track_to_be_played);
+        try_play(session,g_track_to_be_played,g_track_offset);
 }
 
 static void token_lost(sp_session *sess)
@@ -312,7 +312,7 @@ int spotify_init(const char *username,const char *password)
 	return 0;
 }
 
-static int try_play(sp_session *session, sp_track *t)
+static int try_play(sp_session *session, sp_track *t,int offset)
 {
     sp_error err;
     fprintf(stderr,"try play\n");
@@ -329,7 +329,10 @@ static int try_play(sp_session *session, sp_track *t)
         }
     } else {
         //FIXME: Seek!
+//        g_current_fifo_idx = (g_current_fifo_idx+1) % 2;
+        sp_session_player_seek(session,offset);
         sp_session_player_play(session,true);
+        
         g_track_to_be_played = NULL;
     }
     return err;
@@ -346,7 +349,7 @@ static void _spotify_play(sp_session *session, std::string uri)
         return;
     }
     sp_track *t = sp_link_as_track_and_offset(l,&offset);
-    try_play(session,t);
+    try_play(session,t,offset);
     sp_link_release(l);
     return;
 }
