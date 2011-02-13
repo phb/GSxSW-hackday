@@ -29,8 +29,13 @@ document.elementFromScreenPoint = function(x, y) {
 		x -= offX;
 		y -= offY;
 	}
-
-	return document.elementFromPoint(x, y);
+    
+    var marker = document.getElementById('gazemarker');
+    document.body.removeChild(marker);
+	el =  document.elementFromPoint(x, y);
+	document.body.appendChild(marker);
+	
+	return el;
 }
 
 var currentElement           = null;
@@ -94,20 +99,23 @@ document.addEventListener("mousemove", function(e) {
 }, false);
 
 document.gaze = function(x, y) {
-	var e   = document.elementFromPoint(x, y);
+    var marker = document.getElementById('gazemarker');
+    document.body.removeChild(marker);
+	var e =  document.elementFromPoint(x, y);
+	document.body.appendChild(marker);
+    
+    
 	var uri = null;
 	var marker = document.getElementById('gazemarker');
 	marker.style.left = (x + window.scrollX) + 'px';
 	marker.style.top  = (y + window.scrollY) + 'px';
-
+	
     while(e != undefined && e != document){
 		var uri = e.getAttribute('gazemusic');
 
 		if(uri && uri.length > 0)
 			break;
-
 		e = e.parentNode;
     }
-
     setContestantElement((e == document) ? null : e);
 }
